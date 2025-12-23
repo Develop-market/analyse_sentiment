@@ -8,14 +8,18 @@ from PIL import Image
 import base64
 import datetime as dt
 import subprocess
+import os
 
-df_postes = pd.read_csv("postes.csv")
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+path = "./commentaires/"
+
+df_postes = pd.read_csv(path + "postes.csv")
 # ========================
 # 1. Chargement des données
 # ========================
 def load_data():
     try:
-        df = pd.read_csv("resultats_sentiments.csv")
+        df = pd.read_csv(path + "resultats_sentiments.csv")
         df['date'] = pd.to_datetime(df['date'], errors='coerce')
         df.dropna(subset=['date'], inplace=True)
     except:
@@ -26,11 +30,11 @@ def load_data():
     except:
         kpis = {}
     try:
-        absa_df = pd.read_csv("absa_df.csv")
+        absa_df = pd.read_csv(path + "absa_df.csv")
     except:
         absa_df = pd.DataFrame()
     try:
-        df_postes = pd.read_csv("postes.csv")
+        df_postes = pd.read_csv(path + "postes.csv")
     except:
         df_postes = pd.DataFrame()
     try:

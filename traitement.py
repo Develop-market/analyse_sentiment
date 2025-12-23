@@ -22,6 +22,9 @@ import json
 
 from transformers import pipeline
 
+
+path_c  = "./commentaires/"
+
 # Télécharger les stopwords français
 nltk.download('stopwords')
 nlp = spacy.load("fr_core_news_md")
@@ -55,7 +58,7 @@ labels = model.config.id2label
 #     return results
 
 negative_keywords = {"nul", "horrible", "détestable", "mauvais", "pourri", "pire", "décevant","difficile","pourquoi","compliqué","mais","longue","pff","souffre","souffrance","souffrent",
-                     "triste","prelevement","revoyez","revoyer"}
+                     "triste","prelevement","revoyez","revoyer", "pas"}
 
 def predict_sentiment(texts, tokenizer, model):
     labels = model.config.id2label
@@ -267,8 +270,9 @@ def generate_wordcloud(df, bank_filter="sgci", phrase_col="phrase", source_col="
 
 
 def process_data(path_concatene="facebook_commentaires_concatene.csv", path_postes="postes.csv"):
-    df = pd.read_csv(path_concatene)
-    df_postes = pd.read_csv(path_postes)
+    path = "./commentaires/"
+    df = pd.read_csv(path_c + path_concatene)
+    df_postes = pd.read_csv(path_c + path_postes)
 
     # Prétraitement
     df.columns = df.columns.str.lower()

@@ -35,7 +35,8 @@ SOURCES = [
     "page_BACI"
 ]
 
-data = pd.read_csv("facebook_commentaires_concatene.csv")
+path_c = "./commentaires/"
+data = pd.read_csv(path_c + "facebook_commentaires_concatene.csv")
 
 MAX_SCROLL_ATTEMPTS = 1
 SCROLL_WAIT_TIME = 10 
