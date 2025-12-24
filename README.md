@@ -24,16 +24,18 @@ Les dependances sont dans le fichiers requirements.txt
 NB: pour pouvoir acceder a facebook, il faudrait qu'une session soit active dans microsoftEdge, avoir obligatoirmeent dans les extensions du navigateur l'extension (EditThisCookie (V3)),c'est à partir dee cette extension qu'on collecte les données pour les mettre dans le fichier facebook_cookies.json
 NB: Il faut aussi télécharger le edgedriver de la même version que le navigateur sur lequel on travaille et selon le PC.
 Telecharger fr_core_news_md de spacy
-'''
+*
+**
 analyse_sentiment_dash/
 ├── asset/
 │   ├── logo.png
-    |---style.css
+|   |---style.css
 │---Posts.py
 |---post.py
 |---traitement.py
 |---push_to_github.py
 ├── requirements.txt
-
 └── README.md
-'''
+**
+*
+
