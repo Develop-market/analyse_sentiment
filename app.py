@@ -1128,7 +1128,7 @@ def filter_details(date_filter, source_filter, aspect_filter, sentiment_filter):
 # 5. Lancement
 # ========================
 if __name__ == "__main__":
-    app.run(debug=False, port=8050)
+    app.run(debug=True, port=8050)
 
 
 # # ----------- PAGE CHATBOT --------
@@ -1167,5 +1167,6 @@ if __name__ == "__main__":
 #         else:
 #             with st.chat_message("assistant"):
 #                 st.markdown(msg)
+
 
 
