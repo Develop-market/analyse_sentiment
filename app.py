@@ -8,18 +8,14 @@ from PIL import Image
 import base64
 import datetime as dt
 import subprocess
-import os
 
-#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-path_c = "/commentaires/"
-
-df_postes = pd.read_csv(path_c + "postes.csv")
+df_postes = pd.read_csv("postes.csv")
 # ========================
 # 1. Chargement des données
 # ========================
 def load_data():
     try:
-        df = pd.read_csv(path_c + "resultats_sentiments.csv")
+        df = pd.read_csv("resultats_sentiments.csv")
         df['date'] = pd.to_datetime(df['date'], errors='coerce')
         df.dropna(subset=['date'], inplace=True)
     except:
@@ -30,11 +26,11 @@ def load_data():
     except:
         kpis = {}
     try:
-        absa_df = pd.read_csv(path_c + "absa_df.csv")
+        absa_df = pd.read_csv("absa_df.csv")
     except:
         absa_df = pd.DataFrame()
     try:
-        df_postes = pd.read_csv(path_c + "postes.csv")
+        df_postes = pd.read_csv("postes.csv")
     except:
         df_postes = pd.DataFrame()
     try:
@@ -1124,9 +1120,12 @@ def filter_details(date_filter, source_filter, aspect_filter, sentiment_filter):
     return filtered_df[["date", "auteur", "phrase", "aspect"]].to_dict("records")
 
 
-# 5. Lancement
 
+# ========================
+# 5. Lancement
+# ========================
 if __name__ == "__main__":
+    import os
     port = int(os.environ.get("PORT", 8050))
     app.run_server(debug=False, host="0.0.0.0", port=port)
 
@@ -1167,5 +1166,4 @@ if __name__ == "__main__":
 #         else:
 #             with st.chat_message("assistant"):
 #                 st.markdown(msg)
-
 
