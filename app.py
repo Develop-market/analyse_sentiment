@@ -4,10 +4,12 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 import json
+import os
 from PIL import Image
 import base64
 import datetime as dt
 import subprocess
+from flask import session, redirect, url_for, request
 
 df_postes = pd.read_csv("postes.csv")
 # ========================
@@ -45,8 +47,10 @@ def load_data():
     return df, kpis, absa_df, df_postes, wordcloud_base64
 
 df, kpis, absa_df, df_postes, wordcloud_base64 = load_data()
-df["date"] = pd.to_datetime(df["date"], errors="coerce")
-absa_df["date"] = pd.to_datetime(absa_df["date"], errors="coerce")
+if not df.empty:
+    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+if not absa_df.empty:
+    absa_df["date"] = pd.to_datetime(absa_df["date"], errors="coerce")
 
 # ========================
 # 2. Fonction LLaMA
@@ -67,34 +71,94 @@ def query_llama(prompt, model="llama3"):
 # ========================
 # 3. Application Dash
 # ========================
+
+
+USERS = {
+    "admin": "motdepasse123",
+    "analyste": "analyse2025"
+}
+
 app = dash.Dash(__name__, suppress_callback_exceptions=True)
 server = app.server
+server.secret_key = os.environ.get("SECRET_KEY", "super-secret-key-for-dev-only")
+
+# === Route login ===
+@server.route("/login", methods=["GET", "POST"])
+def login_route():
+    if session.get("authenticated"):
+        return redirect("/")
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        if username in USERS and USERS[username] == password:
+            session["authenticated"] = True
+            session["username"] = username
+            return redirect("/")
+        else:
+            return '''
+            <h3 style="color:red;text-align:center;margin-top:50px;">❌ Identifiant ou mot de passe incorrect</h3>
+            <form method="post" style="max-width:300px;margin:auto;text-align:center;">
+                <input name="username" placeholder="Nom d'utilisateur" required style="width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;"><br>
+                <input name="password" type="password" placeholder="Mot de passe" required style="width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;"><br>
+                <button type="submit" style="width:100%;padding:10px;background:#E60000;color:white;border:none;border-radius:6px;cursor:pointer;">Se connecter</button>
+            </form>
+            <style>body{font-family:sans-serif;background:#f9f9f9;}</style>
+            '''
+    return '''
+    <form method="post" style="max-width:300px;margin:auto;text-align:center;margin-top:100px;">
+        <h2>🔐 Connexion</h2>
+        <input name="username" placeholder="Nom d'utilisateur" required style="width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;"><br>
+        <input name="password" type="password" placeholder="Mot de passe" required style="width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;"><br>
+        <button type="submit" style="width:100%;padding:10px;background:#E60000;color:white;border:none;border-radius:6px;cursor:pointer;">Se connecter</button>
+    </form>
+    <style>body{font-family:'Segoe UI',sans-serif;background:#FAFAFA;}</style>
+    '''
+
+# === Route logout ===
+@server.route("/logout")
+def logout_route():
+    session.pop("authenticated", None)
+    session.pop("username", None)
+    return redirect("/login")
 
 # Menu principal
-app.layout = html.Div([
-    dcc.Tabs(
-        id="tabs",
-        value="home",
-        children=[
-            dcc.Tab(label="🏠 Accueil", value="home"),
-            dcc.Tab(label="📈 Statistiques Générales", value="stats"),
-            dcc.Tab(label="📊 Analyses Graphiques", value="viz"),
+def get_layout():
+    # CHARTRE SG
+    SG_RED = "#E60000"
+    SG_BLACK = "#000000"
+    SG_WHITE = "#FFFFFF"
 
-            # 🔥 Onglet stylé avec badge rouge via style et pseudo-élément CSS
-            dcc.Tab(
-                label="🔍 Détails des commentaires",
-                value="details",
-                className="tab-alert"
-            ),
+    if not session.get("authenticated"):
+        return html.Div([
+            html.H2("🔐 Accès restreint", style={"textAlign": "center", "margin": "100px", "color": SG_BLACK}),
+            html.P("Veuillez vous connecter pour accéder à l'application.", style={"textAlign": "center", "color": "#666"}),
+            html.Div(html.A("Cliquez ici pour vous connecter", href="/login", style={"display": "block", "textAlign": "center", "marginTop": "20px", "color": SG_RED, "fontWeight": "bold"}))
+        ])
 
-            dcc.Tab(label="📝 Posts divers", value="posts"),
-        ],
-        style={"fontWeight": "600", "fontSize": "16px"}
-    ),
-    html.Div(id="content")
-])
+    # Si authentifié → layout complet
+    return html.Div([
+        # Barre d'utilisateur
+        html.Div([
+            html.Span(f"👤 {session['username']}", style={"float": "right", "marginRight": "20px", "color": SG_RED, "fontWeight": "bold"}),
+            html.A("Déconnexion", href="/logout", style={"float": "right", "marginRight": "10px", "color": "#666"})
+        ], style={"padding": "10px", "backgroundColor": "#f0f0f0", "marginBottom": "20px"}),
+        # Onglets
+        dcc.Tabs(
+            id="tabs",
+            value="home",
+            children=[
+                dcc.Tab(label="🏠 Accueil", value="home"),
+                dcc.Tab(label="📈 Statistiques Générales", value="stats"),
+                dcc.Tab(label="📊 Analyses Graphiques", value="viz"),
+                dcc.Tab(label="🔍 Détails des commentaires", value="details"),
+                dcc.Tab(label="📝 Posts divers", value="posts"),
+            ],
+            style={"fontWeight": "600", "fontSize": "16px"}
+        ),
+        html.Div(id="content")
+    ])
 
-
+app.layout = get_layout
 
 # ========================
 # 4. Callbacks pour pages
@@ -1125,7 +1189,6 @@ def filter_details(date_filter, source_filter, aspect_filter, sentiment_filter):
 # 5. Lancement
 # ========================
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 8050))
     app.run(debug=False, host="0.0.0.0", port=port)
 
@@ -1166,5 +1229,6 @@ if __name__ == "__main__":
 #         else:
 #             with st.chat_message("assistant"):
 #                 st.markdown(msg)
+
 
 
