@@ -21,7 +21,6 @@ COMMENT_LOAD_WAIT = 4
 index  = 0
 # Initialisation du navigateur Edge
 path_edge = "./"
-path_c = "./commentaires/"
 options = EdgeOptions()
 options.add_argument("--start-maximized")
 options.add_argument("--disable-notifications")
@@ -30,7 +29,7 @@ options.add_experimental_option("excludeSwitches", ["enable-automation"])
 driver_path = path_edge + "edgedriver_win64/msedgedriver.exe"  
 driver = webdriver.Edge(service=EdgeService(executable_path=driver_path), options=options)
 
-data = pd.read_csv(path_c + "postes.csv")
+data = pd.read_csv("postes.csv")
 
 def load_cookies():
     """Charger et injecter les cookies Facebook"""
@@ -587,3 +586,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
