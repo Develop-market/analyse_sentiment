@@ -23,8 +23,6 @@ import json
 from transformers import pipeline
 
 
-path_c  = "./commentaires/"
-
 # Télécharger les stopwords français
 nltk.download('stopwords')
 nlp = spacy.load("fr_core_news_md")
@@ -324,3 +322,4 @@ def process_data(path_concatene="facebook_commentaires_concatene.csv", path_post
 # Si exécuté directement
 if __name__ == "__main__":
     process_data()
+
