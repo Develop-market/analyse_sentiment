@@ -14,7 +14,7 @@
 },
 {
     "domain": ".facebook.com",
-    "expirationDate": 1798530818.108788,
+    "expirationDate": 1799133506.022953,
     "hostOnly": false,
     "httpOnly": false,
     "name": "c_user",
@@ -42,7 +42,7 @@
 },
 {
     "domain": ".facebook.com",
-    "expirationDate": 1767599612,
+    "expirationDate": 1768204936,
     "hostOnly": false,
     "httpOnly": false,
     "name": "dpr",
@@ -56,7 +56,7 @@
 },
 {
     "domain": ".facebook.com",
-    "expirationDate": 1774770820.694192,
+    "expirationDate": 1775376120.23691,
     "hostOnly": false,
     "httpOnly": true,
     "name": "fr",
@@ -65,7 +65,7 @@
     "secure": true,
     "session": false,
     "storeId": "0",
-    "value": "1BrNEy1iMx5dbzzz0.AWeacNQvk-38ssI1y5U8UboQ_oLGm_LXWRNbTMud4yjiZk1wglk.BpUjLg..AAA.0.0.BpUjLi.AWfVTKbWjfHPZWmCwqN9JBhFdHI",
+    "value": "1WANSdjOGGmOX9w1R.AWcyupkXkDTkVI6xREEg8JoHF1EJjafPRlwZwVi_GZX9Wlxe4Rk.BpW2Ua..AAA.0.0.BpW29P.AWcofHJYVcTPtlLhgQqfWTRz7OU",
     "id": 5
 },
 {
@@ -78,7 +78,7 @@
     "secure": true,
     "session": true,
     "storeId": "0",
-    "value": "C%7B%22t3%22%3A%5B%5D%2C%22utc3%22%3A1766994825567%2C%22v%22%3A1%7D",
+    "value": "C%7B%22t3%22%3A%5B%5D%2C%22utc3%22%3A1767600136759%2C%22v%22%3A1%7D",
     "id": 6
 },
 {
@@ -125,7 +125,7 @@
 },
 {
     "domain": ".facebook.com",
-    "expirationDate": 1767599625,
+    "expirationDate": 1768204936,
     "hostOnly": false,
     "httpOnly": false,
     "name": "wd",
@@ -134,12 +134,12 @@
     "secure": true,
     "session": false,
     "storeId": "0",
-    "value": "1912x948",
+    "value": "1528x828",
     "id": 10
 },
 {
     "domain": ".facebook.com",
-    "expirationDate": 1798530818.108911,
+    "expirationDate": 1799133506.023374,
     "hostOnly": false,
     "httpOnly": true,
     "name": "xs",
@@ -148,7 +148,7 @@
     "secure": true,
     "session": false,
     "storeId": "0",
-    "value": "33%3AqLqOmzdQQ4ITyA%3A2%3A1766483412%3A-1%3A-1%3A%3AAcyRCmoIuJ9npwsKXZWovpQCwBd0hKa-7dKqO0OM0bM",
+    "value": "33%3AqLqOmzdQQ4ITyA%3A2%3A1766483412%3A-1%3A-1%3A%3AAcym6ugyAu8MnPtXo7Edt-GNiLaAUINXPO1C5dmoMu0",
     "id": 11
 }
 ]
