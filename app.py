@@ -437,7 +437,7 @@ def render_page(tab):
                         Les accès sont restreints aux équipes autorisées,avec journalisationet contrôle d'accès.
                         
                         Toute évolution de périmètre ou export nominatif est interdite sans validation préalable de la direction innovation et de la gouvernance MRM.
-                        Pour l'exercice des droits, les demandes liées aux commentaires doivent être addréssés à Facebook pour suppréssion à la source;la BU traitera les co^pies locales conformément aux procédures internes.
+                        Pour l'exercice des droits, les demandes liées aux commentaires doivent être addréssés à Facebook pour suppréssion à la source;la BU traitera les copies locales conformément aux procédures internes.
                         
                         Références: RGPD(UE 2016/679) - ART.5,6(1)(f),25,Meta/Facebook Terms & Developper Policies;AI Act 5UE 2024/1689)."
                         style={
@@ -1255,6 +1255,7 @@ if __name__ == "__main__":
 #         else:
 #             with st.chat_message("assistant"):
 #                 st.markdown(msg)
+
 
 
 
