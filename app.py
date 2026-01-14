@@ -432,14 +432,7 @@ def render_page(tab):
                         }
                     ),
                     html.P(
-                        "Ce tableau de bord repose uniquement sur des contenus collectés via l'API officielle de Facebook avec 
-                        pour interêt légitime appuyer par l'Art.6(1)(f).Les données brutes ont une duree de vie de 12 mois maximum et les aggregations iront jusqu'a 24 mois.
-                        Les accès sont restreints aux équipes autorisées,avec journalisationet contrôle d'accès.
-                        
-                        Toute évolution de périmètre ou export nominatif est interdite sans validation préalable de la direction innovation et de la gouvernance MRM.
-                        Pour l'exercice des droits, les demandes liées aux commentaires doivent être addréssés à Facebook pour suppréssion à la source;la BU traitera les copies locales conformément aux procédures internes.
-                        
-                        Références: RGPD(UE 2016/679) - ART.5,6(1)(f),25,Meta/Facebook Terms & Developper Policies;AI Act 5UE 2024/1689).",
+                        "xx",
                         style={
                             "fontSize": "18px",
                             "color": SG_GREY,
@@ -1255,6 +1248,7 @@ if __name__ == "__main__":
 #         else:
 #             with st.chat_message("assistant"):
 #                 st.markdown(msg)
+
 
 
 
