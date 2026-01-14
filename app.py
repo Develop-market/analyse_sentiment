@@ -4,12 +4,22 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 import json
-import os
 from PIL import Image
 import base64
 import datetime as dt
 import subprocess
+import os
+import io
 from flask import session, redirect, url_for, request
+
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+USERS = {
+    "admin": "motdepasse123",
+    "analyste": "analyse2025"
+}
+
 
 df_postes = pd.read_csv("postes.csv")
 # ========================
@@ -28,7 +38,7 @@ def load_data():
     except:
         kpis = {}
     try:
-        absa_df = pd.read_csv("absa_df.csv")
+        absa_df = pd.read_csv( "absa_df.csv")
     except:
         absa_df = pd.DataFrame()
     try:
@@ -38,7 +48,6 @@ def load_data():
     try:
         wordcloud_img = Image.open("wordcloud.png")
         # Encodage en base64 pour affichage dans Dash
-        import io
         buf = io.BytesIO()
         wordcloud_img.save(buf, format="PNG")
         wordcloud_base64 = base64.b64encode(buf.getvalue()).decode()
@@ -71,13 +80,6 @@ def query_llama(prompt, model="llama3"):
 # ========================
 # 3. Application Dash
 # ========================
-
-
-USERS = {
-    "admin": "motdepasse123",
-    "analyste": "analyse2025"
-}
-
 app = dash.Dash(__name__, suppress_callback_exceptions=True)
 server = app.server
 server.secret_key = os.environ.get("SECRET_KEY", "super-secret-key-for-dev-only")
@@ -122,6 +124,30 @@ def logout_route():
     return redirect("/login")
 
 # Menu principal
+# app.layout = html.Div([
+#     dcc.Tabs(
+#         id="tabs",
+#         value="home",
+#         children=[
+#             dcc.Tab(label="🏠 Accueil", value="home"),
+#             dcc.Tab(label="📈 Statistiques Générales", value="stats"),
+#             dcc.Tab(label="📊 Analyses Graphiques", value="viz"),
+
+#             # 🔥 Onglet stylé avec badge rouge via style et pseudo-élément CSS
+#             dcc.Tab(
+#                 label="🔍 Détails des commentaires",
+#                 value="details",
+#                 className="tab-alert"
+#             ),
+
+#             dcc.Tab(label="📝 Posts divers", value="posts"),
+#         ],
+#         style={"fontWeight": "600", "fontSize": "16px"}
+#     ),
+#     html.Div(id="content")
+# ])
+
+
 def get_layout():
     # CHARTRE SG
     SG_RED = "#E60000"
@@ -130,8 +156,18 @@ def get_layout():
 
     if not session.get("authenticated"):
         return html.Div([
-            html.H2("🔐 Accès restreint", style={"textAlign": "center", "margin": "100px", "color": SG_BLACK}),
-            html.P("Veuillez vous connecter pour accéder à l'application.", style={"textAlign": "center", "color": "#666"}),
+            html.H2("🔐 DISCLAIMER CONFORMITE RGPD-MKG_330  ", style={"textAlign": "center", "margin": "100px", "color": SG_BLACK}),
+            html.P("""
+Cette solution digitale repose uniquement sur des contenus collectés via l'API officielle de Facebook avec pour intérêt légitime appuyer par l'Art.6(1)(f).Les données brutes ont une durée de vie de 12 mois maximum et les agrégations iront jusqu'à 24 mois.
+Les accès sont restreints aux équipes autorisées, avec journalisation et contrôle d'accès.
+                        
+Toute évolution de périmètre ou export nominatif est interdite sans validation préalable de la direction innovation et de la gouvernance MRM.
+Pour l'exercice des droits, les demandes liées aux commentaires doivent être adressées à Facebook pour suppression à la source; on traitera les copies locales conformément aux procédures internes.
+                        
+Références: 
+RGPD(UE 2016/679) - ART.5,6(1)(f),25;
+Meta/Facebook Terms & Developper Policies;
+AI Act 5UE 2024/1689).""", style={"textAlign": "center", "color": "#666"}),
             html.Div(html.A("Cliquez ici pour vous connecter", href="/login", style={"display": "block", "textAlign": "center", "marginTop": "20px", "color": SG_RED, "fontWeight": "bold"}))
         ])
 
@@ -159,6 +195,7 @@ def get_layout():
     ])
 
 app.layout = get_layout
+
 
 # ========================
 # 4. Callbacks pour pages
@@ -235,7 +272,7 @@ def render_page(tab):
             html.Div([
                 html.Div([
                     html.Div([
-                        html.H1("🕷️ SpyMarketBank", 
+                        html.H1("Analyse des sentiments: cas des banques", 
                                style={
                                    "fontSize": "84px", 
                                    "fontWeight": "900",
@@ -401,8 +438,9 @@ def render_page(tab):
             # Citation professionnelle
             html.Div([
                 html.Div([
+                    html.Div("━━━━━━━", style={"color": SG_RED, "fontSize": "32px", "marginBottom": "25px"}),
                     html.P(
-                        ""\ De la donnée brute à l'intelligence stratégique \"",
+                        "\" De la donnée brute à l'intelligence stratégique \"",
                         style={
                             "fontSize": "32px",
                             "fontStyle": "italic",
@@ -418,34 +456,7 @@ def render_page(tab):
                             "color": SG_GREY,
                             "fontWeight": "400"
                         }
-                    ),
-                    html.Div("━━━━━━━", style={"color": SG_RED, "fontSize": "32px", "marginBottom": "25px"}),
-                 html.Div([
-                    html.P(
-                        ""\ DISCLAIMER CONFORMITE RGPD-MKG_330 \"",
-                        style={
-                            "fontSize": "32px",
-                            "fontStyle": "italic",
-                            "color": SG_BLACK,
-                            "fontWeight": "600",
-                            "marginBottom": "20px"
-                        }
-                    ),
-                    html.P(
-                        "Ce tableau de bord repose uniquement sur des contenus collectés via l'API officielle de Facebook avec 
-                        pour interêt légitime appuyer par l'Art.6(1)(f).Les données brutes ont une duree de vie de 12 mois maximum et les aggregations iront jusqu'a 24 mois.
-                        Les accès sont restreints aux équipes autorisées,avec journalisationet contrôle d'accès.
-                        
-                        Toute évolution de périmètre ou export nominatif est interdite sans validation préalable de la direction innovation et de la gouvernance MRM.
-                        Pour l'exercice des droits, les demandes liées aux commentaires doivent être addréssés à Facebook pour suppréssion à la source;la BU traitera les copies locales conformément aux procédures internes.
-                        
-                        Références: RGPD(UE 2016/679) - ART.5,6(1)(f),25,Meta/Facebook Terms & Developper Policies;AI Act 5UE 2024/1689).",
-                        style={
-                            "fontSize": "18px",
-                            "color": SG_GREY,
-                            "fontWeight": "400"
-                        }
-                    )   
+                    )
                 ], style={**card_premium, "textAlign": "center", "padding": "60px", "background": SG_LIGHT_GREY})
             ])
         ], style={"padding": "50px 30px", "backgroundColor": "#FAFAFA", "minHeight": "100vh"})
@@ -1210,12 +1221,10 @@ def filter_details(date_filter, source_filter, aspect_filter, sentiment_filter):
     return filtered_df[["date", "auteur", "phrase", "aspect"]].to_dict("records")
 
 
-
-# ========================
 # 5. Lancement
-# ========================
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8050))
+    port = int(os.environ.get("PORT", 8053))
     app.run(debug=False, host="0.0.0.0", port=port)
 
 
@@ -1255,11 +1264,5 @@ if __name__ == "__main__":
 #         else:
 #             with st.chat_message("assistant"):
 #                 st.markdown(msg)
-
-
-
-
-
-
 
 
