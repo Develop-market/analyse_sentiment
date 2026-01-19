@@ -1,4 +1,4 @@
-SPYBANKMARKET
+SPYMARKETBANK
 
 Ce projet vise à collecter des données via les réseaux sociaux (Facebook, Linkedin,etc.) afin d'analyser le ressenti des clients sur la banque. 
 
@@ -38,4 +38,5 @@ analyse_sentiment_dash/
 └── README.md
 **
 *
+
 
