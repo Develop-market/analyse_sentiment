@@ -156,20 +156,192 @@ def get_layout():
 
     if not session.get("authenticated"):
         return html.Div([
-            html.H2("🔐 DISCLAIMER CONFORMITE RGPD-MKG_330  ", style={"textAlign": "center", "margin": "100px", "color": SG_BLACK}),
-            html.P("""
-Cette solution digitale repose uniquement sur des contenus collectés via l'API officielle de Facebook avec pour intérêt légitime appuyer par l'Art.6(1)(f).Les données brutes ont une durée de vie de 12 mois maximum et les agrégations iront jusqu'à 24 mois.
-Les accès sont restreints aux équipes autorisées, avec journalisation et contrôle d'accès.
-                        
-Toute évolution de périmètre ou export nominatif est interdite sans validation préalable de la direction innovation et de la gouvernance MRM.
-Pour l'exercice des droits, les demandes liées aux commentaires doivent être adressées à Facebook pour suppression à la source; on traitera les copies locales conformément aux procédures internes.
-                        
-Références: 
-RGPD(UE 2016/679) - ART.5,6(1)(f),25;
-Meta/Facebook Terms & Developper Policies;
-AI Act 5UE 2024/1689).""", style={"textAlign": "center", "color": "#666"}),
-            html.Div(html.A("Cliquez ici pour vous connecter", href="/login", style={"display": "block", "textAlign": "center", "marginTop": "20px", "color": SG_RED, "fontWeight": "bold"}))
-        ])
+    # Container principal avec fond dégradé
+    html.Div([
+        # Titre principal
+        html.H2(
+            "🔐 DISCLAIMER CONFORMITÉ RGPD-MKG_330",
+            style={
+                "textAlign": "center",
+                "color": SG_BLACK,
+                "marginBottom": "30px",
+                "fontSize": "28px",
+                "fontWeight": "bold"
+            }
+        ),
+        
+        # Carte de contenu
+        html.Div([
+            # Section 1: Collecte des données
+            html.Div([
+                html.H3(
+                    "📊 Collecte des données",
+                    style={
+                        "color": SG_RED,
+                        "marginBottom": "15px",
+                        "fontSize": "20px",
+                        "fontWeight": "600"
+                    }
+                ),
+                html.P(
+                    "Cette solution digitale repose uniquement sur des contenus collectés via l'API officielle de Facebook avec pour intérêt légitime appuyé par l'Art.6(1)(f).",
+                    style={
+                        "color": "#333",
+                        "lineHeight": "1.8",
+                        "fontSize": "16px",
+                        "marginBottom": "10px"
+                    }
+                ),
+                html.P(
+                    "Les données brutes ont une durée de vie de 12 mois maximum et les agrégations iront jusqu'à 24 mois.",
+                    style={
+                        "color": "#555",
+                        "lineHeight": "1.8",
+                        "fontSize": "15px",
+                        "fontStyle": "italic"
+                    }
+                )
+            ], style={"marginBottom": "25px"}),
+            
+            # Section 2: Sécurité et accès
+            html.Div([
+                html.H3(
+                    "🔒 Sécurité et accès",
+                    style={
+                        "color": SG_RED,
+                        "marginBottom": "15px",
+                        "fontSize": "20px",
+                        "fontWeight": "600"
+                    }
+                ),
+                html.P(
+                    "Les accès sont restreints aux équipes autorisées, avec journalisation et contrôle d'accès.",
+                    style={
+                        "color": "#333",
+                        "lineHeight": "1.8",
+                        "fontSize": "16px"
+                    }
+                )
+            ], style={"marginBottom": "25px"}),
+            
+            # Section 3: Restrictions
+            html.Div([
+                html.H3(
+                    "⚠️ Restrictions",
+                    style={
+                        "color": SG_RED,
+                        "marginBottom": "15px",
+                        "fontSize": "20px",
+                        "fontWeight": "600"
+                    }
+                ),
+                html.P(
+                    "Toute évolution de périmètre ou export nominatif est interdite sans validation préalable de la direction innovation et de la gouvernance MRM.",
+                    style={
+                        "color": "#333",
+                        "lineHeight": "1.8",
+                        "fontSize": "16px"
+                    }
+                )
+            ], style={"marginBottom": "25px"}),
+            
+            # Section 4: Exercice des droits
+            html.Div([
+                html.H3(
+                    "✉️ Exercice des droits",
+                    style={
+                        "color": SG_RED,
+                        "marginBottom": "15px",
+                        "fontSize": "20px",
+                        "fontWeight": "600"
+                    }
+                ),
+                html.P(
+                    "Pour l'exercice des droits, les demandes liées aux commentaires doivent être adressées à Facebook pour suppression à la source ; nous traiterons les copies locales conformément aux procédures internes.",
+                    style={
+                        "color": "#333",
+                        "lineHeight": "1.8",
+                        "fontSize": "16px"
+                    }
+                )
+            ], style={"marginBottom": "30px"}),
+            
+            # Séparateur
+            html.Hr(style={
+                "border": "none",
+                "borderTop": f"2px solid {SG_RED}",
+                "margin": "30px 0",
+                "opacity": "0.3"
+            }),
+            
+            # Références légales
+            html.Div([
+                html.H4(
+                    "📚 Références légales",
+                    style={
+                        "color": SG_BLACK,
+                        "marginBottom": "15px",
+                        "fontSize": "18px",
+                        "fontWeight": "600"
+                    }
+                ),
+                html.Ul([
+                    html.Li("RGPD (UE 2016/679) - ART.5, 6(1)(f), 25", 
+                           style={"marginBottom": "8px", "fontSize": "15px"}),
+                    html.Li("Meta/Facebook Terms & Developer Policies", 
+                           style={"marginBottom": "8px", "fontSize": "15px"}),
+                    html.Li("AI Act (UE 2024/1689)", 
+                           style={"fontSize": "15px"})
+                ], style={
+                    "color": "#666",
+                    "lineHeight": "1.8",
+                    "paddingLeft": "25px"
+                })
+            ], style={
+                "backgroundColor": "#f8f9fa",
+                "padding": "20px",
+                "borderRadius": "8px",
+                "marginBottom": "30px"
+            }),
+            
+            # Bouton de connexion
+            html.Div([
+                html.A(
+                    "Cliquez ici pour vous connecter →",
+                    href="/login",
+                    style={
+                        "display": "inline-block",
+                        "padding": "15px 40px",
+                        "backgroundColor": SG_RED,
+                        "color": "white",
+                        "textDecoration": "none",
+                        "borderRadius": "8px",
+                        "fontWeight": "bold",
+                        "fontSize": "18px",
+                        "boxShadow": "0 4px 6px rgba(0,0,0,0.1)",
+                        "transition": "all 0.3s ease"
+                    }
+                )
+            ], style={
+                "textAlign": "center",
+                "marginTop": "20px"
+            })
+            
+        ], style={
+            "maxWidth": "900px",
+            "margin": "0 auto",
+            "padding": "40px",
+            "backgroundColor": "white",
+            "borderRadius": "15px",
+            "boxShadow": "0 10px 30px rgba(0,0,0,0.1)"
+        })
+        
+    ], style={
+        "minHeight": "100vh",
+        "padding": "50px 20px",
+        "background": "linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%)"
+    })
+], style={"width": "100%"})
 
     # Si authentifié → layout complet
     return html.Div([
